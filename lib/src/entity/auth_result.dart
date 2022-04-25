@@ -1,7 +1,6 @@
 import 'dart:core';
 
 import '../../twitter_login.dart';
-import 'entity.dart';
 
 /// The result when the Twitter login flow has completed.
 /// The login methods always return an instance of this class.
