@@ -2,7 +2,7 @@ import 'package:twitter_login/src/oauth_2.dart';
 import 'package:twitter_login/src/utils.dart';
 
 /// https://developer.twitter.com/en/docs/twitter-api/data-dictionary/object-model/user
-class User {
+class TwitterUser {
   /// The unique identifier of this user.
   ///
   /// Use this to programmatically retrieve information about a specific Twitter user.
@@ -16,7 +16,7 @@ class User {
   final String _thumbnailImage;
 
   /// The Twitter screen name, handle, or alias that this user identifies themselves with.
-  /// Usernames are unique but subject to change.
+  /// TwitterUsernames are unique but subject to change.
   /// Typically a maximum of 15 characters long, but some historical accounts may exist with longer names.
   ///
   /// user name
@@ -52,7 +52,7 @@ class User {
   String get screenName => _screenName;
 
   /// constructor
-  User(Map<String, dynamic> params)
+  TwitterUser(Map<String, dynamic> params)
       : this._id = params.get<int>('id')!,
         // ignore: deprecated_member_use_from_same_package
         this._email = params.get<String>('email') ?? '',
@@ -61,7 +61,7 @@ class User {
         this._screenName = params.get<String>('screen_name') ?? '';
 
   /// get user info
-  static Future<User> getUserData(
+  static Future<TwitterUser> getUserData(
     String apiKey,
     String apiSecretKey,
     String accessToken,
@@ -79,7 +79,7 @@ class User {
         apiSecretKey: apiSecretKey,
         tokenSecret: accessTokenSecret,
       );
-      return User(params);
+      return TwitterUser(params);
     } on Exception {
       rethrow;
     }
@@ -90,7 +90,7 @@ class User {
   /// use Twitter API v2.
   ///
   /// https://api.twitter.com/2/users
-  static Future<User> getUserDataV2(
+  static Future<TwitterUser> getUserDataV2(
     String apiKey,
     String apiSecretKey,
     String accessToken,
@@ -118,7 +118,7 @@ class User {
         'screen_name': data['username'],
       };
 
-      return User(userDict);
+      return TwitterUser(userDict);
     } on Exception {
       rethrow;
     }

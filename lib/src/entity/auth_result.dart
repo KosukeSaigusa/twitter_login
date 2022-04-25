@@ -1,11 +1,11 @@
 import 'dart:core';
 
-import 'package:twitter_login/entity/user.dart';
-import 'package:twitter_login/src/twitter_login.dart';
+import '../../twitter_login.dart';
+import 'entity.dart';
 
 /// The result when the Twitter login flow has completed.
 /// The login methods always return an instance of this class.
-class AuthResult {
+class TwitterAuthResult {
   /// The access token for using the Twitter APIs
   final String? _authToken;
 
@@ -19,21 +19,21 @@ class AuthResult {
   final String? _errorMessage;
 
   /// Twitter Account user Info.
-  final User? _user;
+  final TwitterUser? _user;
 
   String? get authToken => _authToken;
   String? get authTokenSecret => _authTokenSecret;
   TwitterLoginStatus? get status => _status;
   String? get errorMessage => _errorMessage;
-  User? get user => _user;
+  TwitterUser? get user => _user;
 
   /// constructor
-  AuthResult({
+  TwitterAuthResult({
     String? authToken,
     String? authTokenSecret,
     TwitterLoginStatus? status,
     String? errorMessage,
-    User? user,
+    TwitterUser? user,
   })  : this._authToken = authToken,
         this._authTokenSecret = authTokenSecret,
         this._status = status,

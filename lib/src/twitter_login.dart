@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:twitter_login/entity/auth_result.dart';
-import 'package:twitter_login/entity/user.dart';
 import 'package:twitter_login/schemes/access_token.dart';
 import 'package:twitter_login/schemes/request_token.dart';
 import 'package:twitter_login/src/auth_browser.dart';
+import 'package:twitter_login/src/entity/auth_result.dart';
+import 'package:twitter_login/src/entity/user.dart';
 import 'package:twitter_login/src/exception.dart';
 
 /// The status after a Twitter login flow has completed.
@@ -45,7 +45,7 @@ class TwitterLogin {
 
   /// Logs the user
   /// Forces the user to enter their credentials to ensure the correct users account is authorized.
-  Future<AuthResult> login({bool forceLogin = false}) async {
+  Future<TwitterAuthResult> login({bool forceLogin = false}) async {
     String? resultURI;
     RequestToken requestToken;
     try {
@@ -132,7 +132,7 @@ class TwitterLogin {
       );
 
       if ((token.authToken?.isEmpty ?? true) || (token.authTokenSecret?.isEmpty ?? true)) {
-        return AuthResult(
+        return TwitterAuthResult(
           authToken: token.authToken,
           authTokenSecret: token.authTokenSecret,
           status: TwitterLoginStatus.error,
@@ -141,12 +141,12 @@ class TwitterLogin {
         );
       }
 
-      return AuthResult(
+      return TwitterAuthResult(
         authToken: token.authToken,
         authTokenSecret: token.authTokenSecret,
         status: TwitterLoginStatus.loggedIn,
         errorMessage: null,
-        user: await User.getUserData(
+        user: await TwitterUser.getUserData(
           apiKey,
           apiSecretKey,
           token.authToken!,
@@ -154,7 +154,7 @@ class TwitterLogin {
         ),
       );
     } on CanceledByUserException {
-      return AuthResult(
+      return TwitterAuthResult(
         authToken: null,
         authTokenSecret: null,
         status: TwitterLoginStatus.cancelledByUser,
@@ -162,7 +162,7 @@ class TwitterLogin {
         user: null,
       );
     } catch (error) {
-      return AuthResult(
+      return TwitterAuthResult(
         authToken: null,
         authTokenSecret: null,
         status: TwitterLoginStatus.error,
@@ -172,7 +172,7 @@ class TwitterLogin {
     }
   }
 
-  Future<AuthResult> loginV2({bool forceLogin = false}) async {
+  Future<TwitterAuthResult> loginV2({bool forceLogin = false}) async {
     String? resultURI;
     RequestToken requestToken;
     try {
@@ -259,7 +259,7 @@ class TwitterLogin {
       );
 
       if ((token.authToken?.isEmpty ?? true) || (token.authTokenSecret?.isEmpty ?? true)) {
-        return AuthResult(
+        return TwitterAuthResult(
           authToken: token.authToken,
           authTokenSecret: token.authTokenSecret,
           status: TwitterLoginStatus.error,
@@ -268,7 +268,7 @@ class TwitterLogin {
         );
       }
 
-      final user = await User.getUserDataV2(
+      final user = await TwitterUser.getUserDataV2(
         apiKey,
         apiSecretKey,
         token.authToken!,
@@ -276,7 +276,7 @@ class TwitterLogin {
         token.userId!,
       );
 
-      return AuthResult(
+      return TwitterAuthResult(
         authToken: token.authToken,
         authTokenSecret: token.authTokenSecret,
         status: TwitterLoginStatus.loggedIn,
@@ -284,7 +284,7 @@ class TwitterLogin {
         user: user,
       );
     } on CanceledByUserException {
-      return AuthResult(
+      return TwitterAuthResult(
         authToken: null,
         authTokenSecret: null,
         status: TwitterLoginStatus.cancelledByUser,
@@ -292,7 +292,7 @@ class TwitterLogin {
         user: null,
       );
     } catch (error) {
-      return AuthResult(
+      return TwitterAuthResult(
         authToken: null,
         authTokenSecret: null,
         status: TwitterLoginStatus.error,

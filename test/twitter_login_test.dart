@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:twitter_login/entity/user.dart';
+import 'package:twitter_login/twitter_login.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -16,9 +16,9 @@ void main() {
         'screen_name': 'test_screen_name',
       };
 
-      final user = User(json);
+      final user = TwitterUser(json);
       // ignore: unnecessary_type_check
-      expect(user is User, isTrue);
+      expect(user is TwitterUser, isTrue);
     });
 
     test('email is null', () {
@@ -29,9 +29,9 @@ void main() {
         'screen_name': 'test_screen_name',
       };
 
-      final user = User(json);
+      final user = TwitterUser(json);
       // ignore: unnecessary_type_check
-      expect(user is User, isTrue);
+      expect(user is TwitterUser, isTrue);
     });
   });
 }
